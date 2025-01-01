@@ -40,7 +40,7 @@ public extension BotMessage {
     
     func reply(_ content: String?, _ embeds: [Embed]? = nil, _ components: [any Component] = []) async throws -> Message {
         
-        if !(content != nil || components.count > 0) {
+        if !(content != nil || components.count > 0) && embeds?.count == 0 {
             throw DiscordREST.RequestError.genericError(reason: "Either content or components must be provided")
         }
         
