@@ -20,6 +20,8 @@ public struct BotMessage {
 
     // The REST handler associated with this message, used for message actions
     fileprivate weak var rest: DiscordREST?
+    
+    public func getREST() -> DiscordREST? { rest }
 
     internal init(from message: Message, rest: DiscordREST) {
         content = message.content
@@ -31,10 +33,16 @@ public struct BotMessage {
 }
 
 public extension BotMessage {
-    func reply(_ content: String) async throws -> Message {
+    
+    func reply(_ content: String? = nil, _ components: [any Component] = []) async throws -> Message {
+        if !(content != nil || components.count > 0) {
+            throw DiscordREST.RequestError.genericError(reason: "Either content or components must be provided")
+        }
+        
         return try await rest!.createChannelMsg(
-            message: .init(content: content, message_reference: .init(message_id: id), components: []),
+            message: .init(content: content, message_reference: .init(message_id: id), components: components),
             id: channelID
         )
     }
+    
 }
