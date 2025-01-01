@@ -105,6 +105,12 @@ public struct EmbedAuthor: Codable, Equatable, Hashable {
 }
 
 public struct EmbedField: Codable, Identifiable, Equatable, Hashable {
+    public init(name: String, value: String, inline: Bool?) {
+        self.name = name
+        self.value = value
+        self.inline = inline
+    }
+    
     public let name: String
     public let value: String
     public let inline: Bool?

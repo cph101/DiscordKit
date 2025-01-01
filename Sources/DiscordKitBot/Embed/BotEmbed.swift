@@ -184,4 +184,23 @@ public extension BotEmbed {
     func author(name: String, url: String? = nil, iconURL: String? = nil, proxyIconURL: String? = nil) -> Self {
         return author(.init(name: name, url: url, icon_url: iconURL, proxy_icon_url: proxyIconURL))
     }
+    
+    func toEmbed() -> Embed {
+        let fields = self.fields?.map { botField in
+            
+            return EmbedField(
+                name: botField.name,
+                value: botField.value,
+                inline: botField.inline
+            )
+        }
+        
+        return Embed(
+            title: self.title, type: .rich, description: self.description,
+            url: self.url?.absoluteString, timestamp: self.timestamp,
+            color: self.color, footer: self.footer, image: self.image,
+            thumbnail: self.thumbnail, video: self.video,
+            provider: self.provider, author: self.author, fields: fields
+        )
+    }
 }
