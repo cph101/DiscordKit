@@ -34,13 +34,13 @@ public struct BotMessage {
 
 public extension BotMessage {
     
-    func reply(_ content: String? = nil, _ components: [any Component] = []) async throws -> Message {
+    func reply(_ content: String? = nil, _ embeds: [Embed]? = nil, _ components: [any Component] = []) async throws -> Message {
         if !(content != nil || components.count > 0) {
             throw DiscordREST.RequestError.genericError(reason: "Either content or components must be provided")
         }
         
         return try await rest!.createChannelMsg(
-            message: .init(content: content, message_reference: .init(message_id: id), components: components),
+            message: .init(content: content, embeds: embeds, message_reference: .init(message_id: id), components: components),
             id: channelID
         )
     }
