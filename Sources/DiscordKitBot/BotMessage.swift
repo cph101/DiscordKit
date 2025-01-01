@@ -34,7 +34,12 @@ public struct BotMessage {
 
 public extension BotMessage {
     
-    func reply(_ content: String? = nil, _ embeds: [Embed]? = nil, _ components: [any Component] = []) async throws -> Message {
+    func reply(_ embeds: [Embed]? = nil, _ components: [any Component] = []) async throws -> Message {
+        return try! await reply(nil, embeds, components)
+    }
+    
+    func reply(_ content: String?, _ embeds: [Embed]? = nil, _ components: [any Component] = []) async throws -> Message {
+        
         if !(content != nil || components.count > 0) {
             throw DiscordREST.RequestError.genericError(reason: "Either content or components must be provided")
         }
